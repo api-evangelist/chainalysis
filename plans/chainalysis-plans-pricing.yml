@@ -1,0 +1,53 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Chainalysis
+providerId: chainalysis
+created: '2026-05-22'
+modified: '2026-05-22'
+tags:
+- Compliance
+- AML
+- KYT
+- Sanctions
+- Investigations
+- Blockchain Analytics
+- Risk
+- Crypto
+description: Machine-readable plans scaffold for the Chainalysis API surface. Conforms to the API Commons Plans schema. Tier
+  limits and prices are scaffold defaults; replace with provider-published values.
+plans:
+- id: chainalysis-free
+  name: Free
+  type: freemium
+  description: Free entry tier for the Chainalysis API surface. Intended for evaluation, prototyping, and low-volume integrations.
+    Real limits and pricing must be reconciled with the provider's published plan documentation.
+  entries:
+  - label: API Requests
+    description: Monthly API request quota across all included endpoints
+    name: api_requests
+    type: quota
+    metric: requests
+    limit: 1000
+    timeFrame: month
+    geo: global
+    domains:
+    - https://public.chainalysis.com/api/v1
+    unit: 1
+    price: '0.00'
+    userMultiplied: false
+  - label: Rate Limit
+    description: Maximum requests per minute on the free tier
+    name: rate_limit
+    type: rate
+    metric: requests_per_minute
+    limit: 10
+    timeFrame: minute
+    geo: global
+    domains:
+    - https://public.chainalysis.com/api/v1
+    unit: 1
+    price: '0.00'
+references:
+- name: Chainalysis API Documentation
+  url: https://raw.githubusercontent.com/api-evangelist/chainalysis/refs/heads/main/apis.yml

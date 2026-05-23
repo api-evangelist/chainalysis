@@ -1,0 +1,233 @@
+aid: chainalysis
+url: https://raw.githubusercontent.com/api-evangelist/chainalysis/refs/heads/main/apis.yml
+name: Chainalysis
+kind: company
+description: >-
+  Chainalysis is a blockchain analysis company providing data, software, and
+  research to government agencies, exchanges, banks, and crypto businesses for
+  compliance, investigation, and risk management. Core products include KYT
+  (real-time transaction monitoring), Address Screening, the publicly hosted
+  Sanctions API, Reactor (investigations and fund tracing), Crypto
+  Investigations, Wallet Scan, Rapid (AI-assisted triage), VASP Risking, and
+  Sentinel (stablecoin risk). Security-side products include Hexagate
+  (web3 threat prevention) and Alterya (fraud prevention). Most APIs are
+  REST-based and gated behind enterprise contracts, except the free public
+  Sanctions Screening API.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Compliance
+  - AML
+  - KYT
+  - Sanctions
+  - Investigations
+  - Blockchain Analytics
+  - Risk
+  - Crypto
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis:
+  - aid: chainalysis:sanctions-screening
+    name: Chainalysis Sanctions Screening API
+    description: >-
+      Free public REST API that returns whether a given crypto address is
+      identified as sanctioned by OFAC or other major sanctions authorities.
+      No commercial licence required; widely embedded by wallets, dApps, and
+      exchanges to block sanctioned addresses at the perimeter.
+    humanURL: https://go.chainalysis.com/chainalysis-oracle-docs.html
+    baseURL: https://public.chainalysis.com/api/v1
+    tags:
+      - REST
+      - Sanctions
+      - Public
+      - OFAC
+    properties:
+      - type: Documentation
+        url: https://go.chainalysis.com/chainalysis-oracle-docs.html
+  - aid: chainalysis:kyt-api
+    name: Chainalysis KYT API
+    description: >-
+      Enterprise REST API for real-time anti-money-laundering monitoring of
+      crypto transactions - register deposits, withdrawals, and transfers,
+      and receive risk scoring, alerts, and exposure breakdowns by entity
+      category. Used by exchanges, banks, and VASPs for AML compliance.
+    humanURL: https://www.chainalysis.com/solution/kyt/
+    baseURL: https://api.chainalysis.com
+    tags:
+      - REST
+      - KYT
+      - AML
+      - Transaction Monitoring
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/solution/kyt/
+  - aid: chainalysis:address-screening
+    name: Chainalysis Address Screening API
+    description: >-
+      Enterprise REST API for assessing a wallet's risk exposure - returns
+      categorised exposure (e.g. darknet markets, sanctions, scams) and a
+      risk score for a given address. Used to gate counterparties at
+      onboarding and at transaction time.
+    humanURL: https://www.chainalysis.com/solution/address-screening/
+    baseURL: https://api.chainalysis.com
+    tags:
+      - REST
+      - Address Screening
+      - Risk
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/solution/address-screening/
+  - aid: chainalysis:entities-api
+    name: Chainalysis Entities API
+    description: >-
+      Enterprise REST API exposing Chainalysis's labelled-entity dataset -
+      look up the entity behind a given address (exchange, mixer, sanctioned
+      actor, scam, etc.) and retrieve entity metadata for compliance and
+      investigative workflows.
+    humanURL: https://www.chainalysis.com/
+    baseURL: https://api.chainalysis.com
+    tags:
+      - REST
+      - Entities
+      - Attribution
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/
+  - aid: chainalysis:reactor
+    name: Chainalysis Reactor
+    description: >-
+      Investigation product for tracing funds across blockchains - graph
+      explorer, address clustering, and case management used by law
+      enforcement, government, and private investigators. Web UI plus
+      complementary API access for export and automation.
+    humanURL: https://www.chainalysis.com/solution/chainalysis-reactor/
+    baseURL: https://reactor.chainalysis.com
+    tags:
+      - Investigations
+      - Graph
+      - Law Enforcement
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/solution/chainalysis-reactor/
+  - aid: chainalysis:crypto-investigations
+    name: Chainalysis Crypto Investigations
+    description: >-
+      Managed investigation service where Chainalysis analysts conduct or
+      assist with crypto-related investigations on behalf of customers,
+      including expert testimony, asset recovery support, and intelligence
+      reports.
+    humanURL: https://www.chainalysis.com/solution/crypto-investigations/
+    baseURL: https://www.chainalysis.com/solution/crypto-investigations/
+    tags:
+      - Investigations
+      - Managed Service
+      - Asset Recovery
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/solution/crypto-investigations/
+  - aid: chainalysis:rapid
+    name: Chainalysis Rapid
+    description: >-
+      AI-powered triage product for instant assessment of crypto addresses
+      and transactions - surfaces key risk and entity context to speed up
+      investigations and compliance reviews.
+    humanURL: https://www.chainalysis.com/
+    baseURL: https://www.chainalysis.com/
+    tags:
+      - AI
+      - Triage
+      - Investigations
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/
+  - aid: chainalysis:wallet-scan
+    name: Chainalysis Wallet Scan
+    description: >-
+      Tool for scanning recovered seed phrases against the blockchain to
+      identify wallets holding seizable cryptocurrency, used in law-enforcement
+      asset-seizure workflows.
+    humanURL: https://www.chainalysis.com/
+    baseURL: https://www.chainalysis.com/
+    tags:
+      - Seizure
+      - Law Enforcement
+      - Wallets
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/
+  - aid: chainalysis:vasp-risking
+    name: Chainalysis VASP Risking
+    description: >-
+      Risk-profile product for Virtual Asset Service Providers - assesses
+      exchanges and other VASPs against AML, sanctions, and counterparty risk
+      criteria for use in correspondent and partnership decisions.
+    humanURL: https://www.chainalysis.com/
+    baseURL: https://www.chainalysis.com/
+    tags:
+      - VASP
+      - Risk
+      - Counterparty
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/
+  - aid: chainalysis:sentinel
+    name: Chainalysis Sentinel
+    description: >-
+      Stablecoin-focused risk product that evaluates the risk profile of
+      individual stablecoins, their issuers, and circulation patterns.
+    humanURL: https://www.chainalysis.com/
+    baseURL: https://www.chainalysis.com/
+    tags:
+      - Stablecoins
+      - Risk
+    properties:
+      - type: Website
+        url: https://www.chainalysis.com/
+  - aid: chainalysis:hexagate
+    name: Hexagate (Chainalysis)
+    description: >-
+      Web3 security product (acquired by Chainalysis) that monitors smart
+      contracts and on-chain activity in real time to detect and prevent
+      exploits, governance attacks, and protocol risk events.
+    humanURL: https://hexagate.com/
+    baseURL: https://hexagate.com/
+    tags:
+      - Web3 Security
+      - Threat Detection
+      - Smart Contracts
+    properties:
+      - type: Website
+        url: https://hexagate.com/
+  - aid: chainalysis:alterya
+    name: Alterya (Chainalysis)
+    description: >-
+      AI-powered fraud prevention product (acquired by Chainalysis) that
+      identifies scams and fraud-victim relationships to help exchanges and
+      payment platforms intervene before funds are sent to bad actors.
+    humanURL: https://www.alterya.com/
+    baseURL: https://www.alterya.com/
+    tags:
+      - Fraud Prevention
+      - AI
+      - Scams
+    properties:
+      - type: Website
+        url: https://www.alterya.com/
+common:
+  - type: Website
+    url: https://www.chainalysis.com/
+  - type: Documentation
+    url: https://docs.chainalysis.com/
+  - type: Support
+    url: https://support.chainalysis.com/
+  - type: Sanctions
+    url: https://go.chainalysis.com/chainalysis-oracle-docs.html
+  - type: Blog
+    url: https://www.chainalysis.com/blog/
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/chainalysis/
+  - type: X
+    url: https://x.com/chainalysis
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
