@@ -13,7 +13,7 @@ description: >-
   (web3 threat prevention) and Alterya (fraud prevention). Most APIs are
   REST-based and gated behind enterprise contracts, except the free public
   Sanctions Screening API.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Compliance
   - AML
