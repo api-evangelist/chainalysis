@@ -214,6 +214,8 @@ apis:
       - type: Website
         url: https://www.alterya.com/
 common:
+  - type: DomainSecurity
+    url: security/chainalysis-domain-security.yml
   - type: Website
     url: https://www.chainalysis.com/
   - type: Documentation
