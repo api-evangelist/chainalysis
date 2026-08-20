@@ -146,6 +146,10 @@ apis:
     humanURL: https://www.chainalysis.com/
     baseURL: https://www.chainalysis.com/
     tags:
+      - Artificial Intelligence
+      - triage
+      - Investigations
+    tags_raw:
       - AI
       - Triage
       - Investigations
@@ -219,6 +223,10 @@ apis:
     humanURL: https://www.alterya.com/
     baseURL: https://www.alterya.com/
     tags:
+      - Fraud Prevention
+      - Artificial Intelligence
+      - Scams
+    tags_raw:
       - Fraud Prevention
       - AI
       - Scams
