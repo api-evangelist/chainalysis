@@ -13,6 +13,17 @@ description: >-
   (web3 threat prevention) and Alterya (fraud prevention). Most APIs are
   REST-based and gated behind enterprise contracts, except the free public
   Sanctions Screening API.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: unknown
