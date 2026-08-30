@@ -1,0 +1,85 @@
+generated: '2026-08-27'
+method: probed
+source: https://trust.chainalysis.com/
+description: >-
+  Chainalysis operates a dedicated public Trust Center on the Vanta platform. The page is
+  live and provider-operated, but its contents are rendered client-side, so the specific
+  certification list could not be read anonymously and is NOT asserted here.
+trust_center:
+  present: true
+  url: https://trust.chainalysis.com/
+  http_status: 200
+  platform: Vanta
+  platform_evidence: >-
+    The page bootstraps from assets.vanta.com (signature-manifest.json, index-trust-report
+    bundles) and links document access through app.vanta.com/doc.
+  machine_readable: false
+  machine_readable_note: >-
+    The trust center is a client-rendered single-page app. /api/company, /api/v1/company,
+    /manifest.json and /documents all return HTTP 200 carrying the SPA shell rather than
+    JSON, and api.vanta.com/trust/chainalysis returns 401. No anonymous JSON surface
+    exposes the control or certification list.
+  document_access: gated
+  document_access_note: >-
+    Vanta trust centers typically place audit reports behind an NDA / email request flow.
+certifications:
+  verified: []
+  verified_note: >-
+    NO certification is asserted as verified. Nothing naming SOC 2, ISO 27001, PCI DSS,
+    HIPAA or FedRAMP was recoverable from any anonymously readable Chainalysis surface -
+    not from the trust center (client-rendered), and not from the company's own 675KB
+    llms.txt, which mentions neither SOC 2 nor ISO 27001 anywhere.
+  claimed_indirect:
+    - standard: SOC 2
+      source: https://jobs.ashbyhq.com/chainalysis-careers/da0b9540-9071-4c80-a1ee-a76d46d19c98
+      source_type: Chainalysis careers posting (InfoSec Analyst II, Trust)
+      confidence: low
+      note: >-
+        The role description says the team manages SOC 2 and ISO 27001 evidence collection
+        and control testing. That is a Chainalysis-authored source and is good reason to
+        believe the certifications exist, but a job posting is NOT a published attestation
+        and is recorded here at low confidence only.
+    - standard: ISO/IEC 27001
+      source: https://jobs.ashbyhq.com/chainalysis-careers/da0b9540-9071-4c80-a1ee-a76d46d19c98
+      source_type: Chainalysis careers posting (InfoSec Analyst II, Trust)
+      confidence: low
+privacy_and_data_protection:
+  published: true
+  documents:
+    - name: Privacy Policy
+      url: https://www.chainalysis.com/privacy-policy/
+      status: 200
+    - name: Data Processing Addendum
+      url: https://www.chainalysis.com/data-processing-addendum/
+      status: 200
+    - name: List of Sub-Processors
+      url: https://www.chainalysis.com/sub-processors-list/
+      status: 200
+    - name: EEA and UK Privacy Disclosures
+      url: https://www.chainalysis.com/eea-uk-privacy-disclosures/
+      status: 200
+    - name: California Privacy Disclosures
+      url: https://www.chainalysis.com/california-privacy-disclosures/
+      status: 200
+    - name: Acceptable Use Policy
+      url: https://www.chainalysis.com/acceptable-use-policy/
+      status: 200
+    - name: Transfer Impact Assessment White Paper
+      url: https://www.chainalysis.com/wp-content/uploads/2023/03/transfer-impact-assessment-white-paper-march-27-2023.pdf
+    - name: Global Code of Business Conduct and Ethics
+      url: https://www.chainalysis.com/wp-content/uploads/2025/09/chainalysis-global-code-of-conduct-09-25-release.pdf
+    - name: Legal Process Guidelines for Law Enforcement
+      url: https://www.chainalysis.com/wp-content/uploads/2026/02/legal-process-guidelines20260220docx.pdf
+  note: >-
+    A published DPA plus a maintained sub-processor list is a substantive, verifiable
+    compliance programme in its own right, independent of the unreadable trust center.
+    This - not the certification list - is what backs the Compliance pointer in apis.yml.
+evidence:
+  - url: https://trust.chainalysis.com/
+    status: 200
+  - url: https://api.vanta.com/trust/chainalysis
+    status: 401
+  - url: https://www.chainalysis.com/sub-processors-list/
+    status: 200
+  - url: https://www.chainalysis.com/data-processing-addendum/
+    status: 200

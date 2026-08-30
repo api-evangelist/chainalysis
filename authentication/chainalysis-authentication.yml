@@ -1,0 +1,88 @@
+generated: '2026-08-27'
+method: probed
+source: >-
+  live unauthenticated + bad-credential probes of public.chainalysis.com and
+  api.chainalysis.com, plus https://www.chainalysis.com/llms.txt
+description: >-
+  Authentication profile for the Chainalysis API surface, established by probing the live
+  hosts rather than from a specification - Chainalysis publishes no anonymous OpenAPI
+  (developers.chainalysis.com/openapi.json returns HTTP 401). Every Chainalysis API is
+  API-key authenticated via a request header. No OAuth 2.0, OpenID Connect or mutual-TLS
+  surface was found on any host, so no scopes/ artifact is emitted.
+schemes:
+  - id: sanctions_api_key
+    type: apiKey
+    in: header
+    name: X-API-Key
+    applies_to:
+      - api: chainalysis:sanctions-screening
+        base: https://public.chainalysis.com/api/v1
+    registration: >-
+      Free. Requested from the public sanctions screening product page; no commercial
+      contract is required.
+    registration_url: https://www.chainalysis.com/product/address-screening/
+    evidence:
+      - description: Request with NO credential
+        url: https://public.chainalysis.com/api/v1/address/{address}
+        http_status: 403
+        body: WAF/Cloudflare HTML interstitial
+      - description: Request with a well-formed but invalid UUID key in X-API-Key
+        url: https://public.chainalysis.com/api/v1/address/{address}
+        http_status: 401
+        body: '{ "message":"Invalid API Key" }'
+        note: >-
+          The 401 with a JSON body proves X-API-Key is the credential header the service
+          actually reads - an unauthenticated request never reaches the application.
+  - id: kyt_token
+    type: apiKey
+    in: header
+    name: Token
+    applies_to:
+      - api: chainalysis:kyt-api
+        base: https://api.chainalysis.com/api/kyt/v2
+    registration: Enterprise contract; key issued in the KYT console at kyt.chainalysis.com.
+    confidence: medium
+    evidence:
+      - description: Unauthenticated request to a live KYT operation
+        url: https://api.chainalysis.com/api/kyt/v2/users
+        http_status: 403
+        body: >-
+          {"timestamp":"...","status":403,"error":"Forbidden","path":"/api/kyt/v2/users"}
+    note: >-
+      The header NAME could not be confirmed anonymously - the KYT reference is behind the
+      customer login. The path is confirmed live: it returns a structured application-level
+      403 rather than the host's 410 catch-all. Header name recorded at medium confidence
+      and should be upgraded from an authenticated docs read.
+  - id: risk_token
+    type: apiKey
+    in: header
+    name: Token
+    applies_to:
+      - api: chainalysis:address-screening
+        base: https://api.chainalysis.com/api/risk/v2
+    registration: Enterprise contract.
+    confidence: medium
+    evidence:
+      - description: Unauthenticated request to a live Address Screening operation
+        url: https://api.chainalysis.com/api/risk/v2/entities
+        http_status: 403
+        body: >-
+          {"timestamp":"...","path":"/api/risk/v2/entities","status":403,"error":"Forbidden",
+          "requestId":"497459b3","message":"Invalid token"}
+        note: >-
+          The application's own message is literally "Invalid token", which is direct
+          evidence that the credential is a bearer-style token supplied per request.
+not_found:
+  oauth2: >-
+    No oauth2 securityScheme, no /.well-known/oauth-authorization-server (404 on
+    www.chainalysis.com; SPA shell on reactor.chainalysis.com), no documented authorization
+    or token endpoint. scopes/ is deliberately NOT emitted.
+  openid_connect: >-
+    No /.well-known/openid-configuration served on any host (404 / SPA shell).
+  mutual_tls: Not documented and not offered on any probed host.
+docs: https://developers.chainalysis.com/
+docs_status: 401
+docs_note: >-
+  The Chainalysis developer portal is entirely behind a customer login. Every content path
+  returns the literal body "User is not logged in" and /openapi.json returns
+  {"error":"Unauthorized"}. The auth model above is therefore probed, not read.
