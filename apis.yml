@@ -173,7 +173,7 @@ apis:
     baseURL: https://www.chainalysis.com/product/rapid/
     tags:
       - Artificial Intelligence
-      - triage
+      - Triage
       - Investigations
     tags_raw:
       - AI

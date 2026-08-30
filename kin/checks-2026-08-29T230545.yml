@@ -1,16 +1,16 @@
 ---
 kin_checks:
   slug: chainalysis
-  schema_version: 0.15.1
-  scored_at: '2026-08-28'
-  run_ts: 2026-08-28T221322
+  schema_version: 0.16.0
+  scored_at: '2026-08-29'
+  run_ts: 2026-08-29T230545
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.15.1.yml; counts below let you verify that.
+    in rubric/scoring-0.16.0.yml; counts below let you verify that.
   counts:
     total: 130
-    earned: 34
-    partial: 4
-    missed: 50
+    earned: 32
+    partial: 5
+    missed: 51
     na: 42
   checks:
   - id: well_known_published
@@ -82,6 +82,9 @@ kin_checks:
     status: missed
   - id: pricing_link
     status: missed
+  - id: trust_center
+    status: missed
+    detail: pointer liveness 0.0
   - id: reg_oauth_scopes
     status: missed
   - id: spec_presence
@@ -114,6 +117,10 @@ kin_checks:
     status: missed
   - id: agentic_commerce
     status: missed
+  - id: github_org_present
+    status: partial
+    earned: 1.0
+    detail: pointer liveness 0.5
   - id: mcp_server
     status: partial
     earned: 4.8
