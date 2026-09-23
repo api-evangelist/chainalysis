@@ -1,0 +1,128 @@
+generated: '2026-08-27'
+method: probed
+source: >-
+  live probes of public.chainalysis.com + api.chainalysis.com; derived from
+  errors/chainalysis-problem-types.yml, authentication/chainalysis-authentication.yml and
+  lifecycle/chainalysis-lifecycle.yml
+description: >-
+  Cross-cutting runtime semantics for the Chainalysis API estate. Chainalysis publishes no
+  anonymous OpenAPI and its developer reference is behind a customer login, so every field
+  below is either OBSERVED on a live host or recorded as unknown-because-gated. Nothing
+  here is inferred from marketing copy.
+auth:
+  style: api-key-header
+  headers:
+    - name: X-API-Key
+      surface: https://public.chainalysis.com/api/v1
+      confirmed: true
+    - name: Token
+      surface: https://api.chainalysis.com/api/kyt/v2
+      confirmed: false
+  see: authentication/chainalysis-authentication.yml
+versioning:
+  style: path-segment
+  pattern: /api/{product}/v{n}/
+  current:
+    - /api/kyt/v2
+    - /api/risk/v2
+    - /api/v1 (sanctions, on public.chainalysis.com)
+  header_negotiation: false
+  see: lifecycle/chainalysis-lifecycle.yml
+error_envelope:
+  unified: false
+  rfc9457: false
+  variants: 3
+  richest:
+    surface: /api/risk/v2
+    fields: [timestamp, path, status, error, requestId, message]
+  note: >-
+    Three different JSON error shapes across four surfaces, and a 403 that returns HTML at
+    the edge but JSON from the application. A client must branch on content-type, not just
+    on status code.
+  see: errors/chainalysis-problem-types.yml
+request_id_tracing:
+  supported: partial
+  field: requestId
+  location: response body
+  surfaces_with: [https://api.chainalysis.com/api/risk/v2]
+  surfaces_without:
+    - https://api.chainalysis.com/api/kyt/v2
+    - https://public.chainalysis.com/api/v1
+  response_header: none_observed
+  note: >-
+    Only the risk/address-screening service returns a correlation id, and only in the body.
+    No X-Request-Id / X-Correlation-Id response header was observed anywhere. Promoting
+    requestId to a response header across all surfaces would make failures traceable
+    without parsing the body - which matters most on the 403s that return HTML.
+idempotency:
+  supported: unknown
+  state: gated
+  header: null
+  note: >-
+    NOT ASSERTED. No Idempotency-Key header, retry-safety statement or replay semantics
+    could be confirmed on any anonymously reachable surface, and the KYT reference that
+    would document it is behind the customer login. This matters more than usual here:
+    KYT is a WRITE API - clients register deposits, withdrawals and transfers - so a
+    duplicate submission on retry is a real, consequential failure mode. NO `Idempotency`
+    pointer is wired into apis.yml, because we could not verify support and asserting it
+    unverified would credit Chainalysis with a guarantee it has not published.
+pagination:
+  style: unknown
+  state: gated
+  note: >-
+    Not observable without a valid credential; the reference is gated. The sanctions
+    endpoint is a single-address lookup and is not paginated.
+rate_limit_signaling:
+  documented_limit: true
+  response_headers: unknown
+  exhaustion_status: 403
+  note: >-
+    Chainalysis documents a numeric limit for the sanctions screening key but the runtime
+    signal could not be observed without a valid key. Notably the documented exhaustion
+    status is 403, NOT the conventional 429 - so a client's standard "retry on 429"
+    handling will not fire, and a rate-limit rejection is indistinguishable by status code
+    from an authorization failure. See rate-limits/chainalysis-rate-limits.yml.
+field_expansion:
+  supported: unknown
+  state: gated
+sparse_fieldsets:
+  supported: unknown
+  state: gated
+metadata:
+  supported: unknown
+  state: gated
+bulk_operations:
+  supported: unknown
+  state: gated
+reversibility:
+  grade: unknown
+  state: gated
+  write_surface: true
+  write_surface_evidence: >-
+    KYT is a write API: its documented purpose is registering transfers, deposits and
+    withdrawals for a user, and the live path /api/kyt/v2/users/{userId}/transfers responds
+    with the application 403 envelope rather than a 404, confirming the write route exists.
+  reversal_operations: []
+  window: null
+  note: >-
+    NOT ASSERTED, and deliberately not graded as `na`. This provider HAS a write surface,
+    so reversibility is in scope - but no reversal operation (cancel / void / delete /
+    undo) and no reversal window could be confirmed from any anonymously reachable
+    Chainalysis source, because the KYT reference is behind the customer login. Recording
+    `documented` or `verified` here would require inventing an operation id or a window,
+    and an invented window is the one error in this pipeline that can cost a user real
+    money. This is a gated unknown, not an absence, and it should be upgraded from an
+    authenticated docs read.
+  what_would_close_it: >-
+    Confirm from the KYT reference whether a registered transfer can be deleted or
+    superseded, the operationId that does it, and the window inside which it works.
+dry_run_mode:
+  supported: unknown
+  state: gated
+webhooks:
+  supported: unknown
+  state: gated
+  note: >-
+    KYT alerting is a documented product capability, but no anonymously readable webhook
+    catalog, event-type list or AsyncAPI document was found. No asyncapi/ artifact and no
+    Webhooks pointer is emitted - see the no-fabrication rule.

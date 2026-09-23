@@ -3,57 +3,89 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Chainalysis
 providerId: chainalysis
+generated: '2026-08-27'
+method: searched
+source: >-
+  https://auth-developers.chainalysis.com/sanctions-screening/api-reference/api-overview
+  (Chainalysis Sanctions Screening API reference); corroborated by live probes of
+  public.chainalysis.com
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-08-27'
 tags:
-- Compliance
-- AML
-- KYT
-- Sanctions
-- Investigations
-- Blockchain Analytics
-- Risk
-- Crypto
-- Rate Limiting
-- Quotas
-- Throttling
-description: Scaffolded rate limit definitions for the Chainalysis API surface. Captures per-tier quotas, burst behavior,
-  response signaling, and recovery semantics. Defaults are scaffold values to be replaced with published provider limits.
+  - Compliance
+  - AML
+  - Sanctions
+  - Rate Limiting
+  - Quotas
+description: >-
+  Published rate limits for the Chainalysis API surface. This file REPLACES a scaffold that
+  carried invented free/pro tier numbers (10 and 120 requests per minute) which Chainalysis
+  never published. Exactly ONE real published limit was recoverable: the sanctions screening
+  API key allowance. Every other Chainalysis API is enterprise-contracted and its limits sit
+  behind the customer login at developers.chainalysis.com.
+limit_count: 1
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  note: >-
+    NO rate-limit response headers are documented, and none could be observed without a
+    valid API key. Neither the RateLimit-* (draft RFC) nor the X-RateLimit-* convention is
+    published. This is the material gap for an automated consumer: a client cannot see how
+    much budget it has left, only that it has run out.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled: 403
+  note: >-
+    IMPORTANT DEVIATION: exhaustion returns HTTP 403, not the conventional 429 Too Many
+    Requests. A generic HTTP client's "back off on 429" logic will NOT trigger, and a
+    throttled response is indistinguishable by status code from an authorization failure.
+    Clients must treat a 403 on this API as potentially retryable after the window resets.
 limits:
-- tier: free
-  name: Free Tier Default
-  scope: api-key
-  metric: requests_per_minute
-  limit: 10
-  burst: 20
-  timeFrame: minute
-  applies:
-  - https://public.chainalysis.com/api/v1
-  description: Default per-token request rate for the free tier. Bursts above the limit return HTTP 429 with Retry-After.
-- tier: pro
-  name: Pro Tier Default
-  scope: api-key
-  metric: requests_per_minute
-  limit: 120
-  burst: 240
-  timeFrame: minute
-  applies:
-  - https://public.chainalysis.com/api/v1
-  description: Higher rate envelope for paid plans; reconcile against published commercial terms.
+  - name: Sanctions Screening API key allowance
+    api: chainalysis:sanctions-screening
+    scope: api-key
+    metric: requests
+    limit: 5000
+    window: 5 minutes
+    timeFrame: 5m
+    burst: null
+    applies:
+      - https://public.chainalysis.com/api/v1
+    exhaustion_status: 403
+    reset: Rolling, every 5 minutes.
+    source: >-
+      https://auth-developers.chainalysis.com/sanctions-screening/api-reference/api-overview
+    method: searched
+    confidence: medium
+    confidence_note: >-
+      Read from the publicly indexed copy of the Chainalysis Sanctions Screening API
+      reference. That page is NOW behind the customer login - a direct fetch of
+      auth-developers.chainalysis.com returns the body "User is not logged in" - so the
+      figure could not be re-confirmed against a live anonymous read on 2026-08-27.
+undocumented:
+  - api: chainalysis:kyt-api
+    reason: >-
+      No published limit. The KYT reference is behind the customer login; limits are
+      understood to be contractual.
+  - api: chainalysis:address-screening
+    reason: No published limit; enterprise contract.
+  - api: chainalysis:entities-api
+    reason: >-
+      No published limit. The surface was sunset on api.chainalysis.com (HTTP 410) and
+      moved to reactor.chainalysis.com.
 recoveryStrategies:
-- name: Exponential Backoff
-  description: Wait Retry-After seconds (or back off exponentially up to 60s) before retrying.
-- name: Queue and Retry
-  description: Submit bulk work in batches under the burst envelope.
+  - name: Wait for window reset
+    description: >-
+      On HTTP 403 from the sanctions API, distinguish an invalid key (JSON body
+      {"message":"Invalid API Key"} with status 401) from throttling (403), then wait out
+      the remainder of the 5-minute window before retrying.
+  - name: Client-side budgeting
+    description: >-
+      Because no RateLimit-* headers are returned, a consumer must track its own request
+      count against the 5000 / 5 minutes allowance locally.
 notes:
-- Replace scaffold values with the provider's published rate limit policy.
+  - >-
+    Prior versions of this file contained scaffold values (free tier 10 rpm / pro tier 120
+    rpm) that were never published by Chainalysis. They have been removed.

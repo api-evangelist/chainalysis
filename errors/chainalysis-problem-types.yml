@@ -1,0 +1,131 @@
+generated: '2026-08-27'
+method: probed
+source: >-
+  live error responses observed on public.chainalysis.com, api.chainalysis.com and
+  developers.chainalysis.com
+description: >-
+  Error catalog for the Chainalysis API surface. Chainalysis publishes no anonymous
+  OpenAPI, so this is DERIVED FROM OBSERVED LIVE RESPONSES rather than from a spec's
+  4xx/5xx declarations. Three distinct error envelopes are in production across the
+  estate - they are not unified. None of them is RFC 9457 application/problem+json.
+format: proprietary-json
+rfc9457: false
+rfc9457_note: >-
+  No endpoint returned application/problem+json, and no response carried the RFC 9457
+  members (type, title, status, detail, instance). Adopting RFC 9457 - or at minimum a
+  single envelope across the three - is the clearest error-semantics improvement available
+  to Chainalysis.
+envelopes:
+  - id: sanctions-envelope
+    applies_to: https://public.chainalysis.com/api/v1
+    content_type: application/json
+    shape:
+      message: string
+    example: '{ "message":"Invalid API Key" }'
+    note: Minimal. Carries no machine-readable code, no correlation id, no remediation link.
+  - id: kyt-envelope
+    applies_to: https://api.chainalysis.com/api/kyt/v2
+    content_type: application/json
+    shape:
+      timestamp: ISO-8601 string
+      status: integer
+      error: string
+      path: string
+    example: >-
+      {"timestamp":"2026-08-27T19:02:09.002+00:00","status":403,"error":"Forbidden",
+      "path":"/api/kyt/v2/users"}
+    note: >-
+      Spring Boot default error envelope. No correlation id, so a client cannot quote a
+      reference when opening a support ticket.
+  - id: risk-envelope
+    applies_to: https://api.chainalysis.com/api/risk/v2
+    content_type: application/json
+    shape:
+      timestamp: ISO-8601 string
+      path: string
+      status: integer
+      error: string
+      requestId: string
+      message: string
+    example: >-
+      {"timestamp":"2026-08-27T19:02:09.183+00:00","path":"/api/risk/v2/entities",
+      "status":403,"error":"Forbidden","requestId":"497459b3","message":"Invalid token"}
+    note: >-
+      The richest of the three and the only one carrying a requestId correlation
+      identifier plus a human-readable message. This is the envelope the other two
+      surfaces should converge on.
+problem_types:
+  - status: 401
+    title: Invalid API Key
+    envelope: sanctions-envelope
+    surface: https://public.chainalysis.com/api/v1
+    observed: true
+    detail: >-
+      The X-API-Key header was present but the key is not recognised.
+    remediation: >-
+      Re-issue the sanctions screening API key. A missing key does not produce this - it
+      is rejected earlier at the edge with a 403 HTML interstitial.
+  - status: 403
+    title: Forbidden - edge rejection
+    envelope: none
+    content_type: text/html
+    surface: https://public.chainalysis.com/api/v1
+    observed: true
+    detail: >-
+      A request carrying NO X-API-Key header is stopped by the WAF and returns an HTML
+      interstitial, not JSON.
+    remediation: Always send the X-API-Key header. Do not parse this body as JSON.
+    note: >-
+      AGENT HAZARD: the same status code (403) returns HTML at the edge and JSON from the
+      application, so a client that assumes a JSON body on 403 will throw a parse error
+      instead of surfacing the real cause.
+  - status: 403
+    title: Forbidden
+    envelope: kyt-envelope
+    surface: https://api.chainalysis.com/api/kyt/v2
+    observed: true
+    detail: Credential absent, invalid, or not entitled to the requested KYT resource.
+    remediation: Supply a valid KYT API token; confirm the subscription covers the endpoint.
+  - status: 403
+    title: Invalid token
+    envelope: risk-envelope
+    surface: https://api.chainalysis.com/api/risk/v2
+    observed: true
+    detail: The supplied token was rejected by the risk/address-screening service.
+    remediation: >-
+      Re-issue the token. Quote the returned requestId when contacting Chainalysis support.
+  - status: 404
+    title: Not Found
+    envelope: none
+    content_type: text/html
+    surface: https://api.chainalysis.com/api/risk/v1
+    observed: true
+    detail: >-
+      Retired version prefixes return the bare nginx 404 page rather than a JSON error.
+    remediation: Use /api/risk/v2.
+  - status: 410
+    title: Gone
+    envelope: none
+    content_type: text/plain
+    surface: https://api.chainalysis.com (all unrouted paths)
+    observed: true
+    body: Use reactor.chainalysis.com instead
+    detail: >-
+      The legacy Entities / Investigations surface on api.chainalysis.com has been sunset.
+      The host answers HTTP 410 Gone with a 35-byte plaintext pointer to its replacement.
+    remediation: Move Entities and Investigations integrations to reactor.chainalysis.com.
+    note: >-
+      A correctly-used 410 with a migration pointer is good deprecation practice, and is
+      the strongest lifecycle signal on this estate. See lifecycle/chainalysis-lifecycle.yml.
+  - status: 401
+    title: Unauthorized
+    envelope:
+      error: string
+    surface: https://developers.chainalysis.com/openapi.json
+    observed: true
+    body: '{"error":"Unauthorized"}'
+    detail: The developer portal's OpenAPI document requires an authenticated session.
+gaps:
+  - No published error-code registry or error reference page is reachable anonymously.
+  - Three inconsistent envelopes across four surfaces; only one carries a correlation id.
+  - No Retry-After or rate-limit error body was observable without a valid key.

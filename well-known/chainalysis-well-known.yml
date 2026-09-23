@@ -1,0 +1,76 @@
+generated: '2026-08-27'
+method: probed
+source: live GET probes of /.well-known/* on every Chainalysis apis.yml baseURL host
+description: >-
+  Probe record for RFC 8615 /.well-known/ documents across every Chainalysis host named in
+  apis.yml. NO document was served. Every path on www.chainalysis.com returns the WordPress
+  404 template (HTTP 404, ~209KB of HTML). Every path on reactor.chainalysis.com returns
+  HTTP 200 carrying the Angular single-page-app shell — an SPA catch-all, NOT a document;
+  it is recorded as a miss. api.chainalysis.com answers 410 Gone on all unrouted paths.
+  No WellKnown and no SecurityTxt pointer is emitted, because the provider serves neither.
+  Chainalysis DOES publish a vulnerability disclosure policy, but as an HTML page rather
+  than a /.well-known/security.txt — see security/chainalysis-vulnerability-disclosure.yml.
+hosts:
+  - host: www.chainalysis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: api.chainalysis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 410
+        file: null
+        note: >-
+          Returns the 35-byte body "Use reactor.chainalysis.com instead" — the host's
+          catch-all Gone response, not a document.
+  - host: public.chainalysis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        file: null
+      - path: /openapi.json
+        status: 403
+        file: null
+  - host: reactor.chainalysis.com
+    documents:
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: null
+        note: >-
+          SPA shell (44,771 bytes of Angular index.html), not a document. Rejected as a
+          false positive per the pipeline's SPA catch-all rule.
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: null
+        note: SPA shell, not a document. Rejected as a false positive.
+  - host: docs.chainalysis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        file: null
+        note: Cloudflare interstitial ("Just a moment...") on the docs host.
+notes:
+  - No /.well-known document is served on any Chainalysis host.
+  - No WellKnown, APICatalog or SecurityTxt pointer is wired into apis.yml — a recorded absence.

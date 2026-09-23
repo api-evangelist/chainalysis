@@ -1,0 +1,67 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  live POST probes of candidate MCP endpoints + web search of MCP registries
+  (smithery.ai, npm, mcpservers.org)
+description: >-
+  NEGATIVE RESULT, recorded deliberately. Chainalysis does not publish a Model Context
+  Protocol server - neither a remote endpoint nor a local stdio package. Third-party
+  servers wrapping Chainalysis branding exist on public registries; they are recorded here
+  precisely so they are NOT mistaken for a first-party agent surface. No MCPServer pointer
+  is wired into apis.yml.
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+probes:
+  - url: https://mcp.chainalysis.com/mcp
+    method: POST tools/list
+    status: null
+    result: DNS resolution failure - host does not exist.
+  - url: https://api.chainalysis.com/mcp
+    method: POST tools/list
+    status: 410
+    result: 'Host catch-all Gone response: "Use reactor.chainalysis.com instead".'
+  - url: https://www.chainalysis.com/mcp
+    method: POST tools/list
+    status: 404
+    result: WordPress 404 template.
+derivation:
+  attempted: false
+  reason: >-
+    A candidate tool list is normally derived from OpenAPI operations. Chainalysis publishes
+    no anonymously readable OpenAPI - developers.chainalysis.com/openapi.json returns HTTP
+    401 - so there are no operations to derive from. Nothing is invented here.
+third_party_servers:
+  note: >-
+    NOT CHAINALYSIS. Listed for disambiguation only. These are published by unaffiliated
+    parties and must never be credited to Chainalysis as an agent surface.
+  entries:
+    - name: chainalysis-aml-risk-mcp
+      registry: smithery.ai
+      publisher: evozim-hv (M2MCent network)
+      url: https://smithery.ai/servers/evozim-hv/chainalysis-aml-risk-mcp
+      first_party: false
+      note: >-
+        Monetised via x402 on Base Mainnet at $0.30 USDC per execution. An independent
+        reseller wrapper, not a Chainalysis product.
+    - name: '@velocity-bpa/n8n-nodes-chainalysis'
+      registry: npm
+      publisher: velobpa
+      first_party: false
+    - name: '@activepieces/piece-chainalysis-api'
+      registry: npm
+      publisher: abdul_activepiecer3
+      first_party: false
+agent_posture:
+  note: >-
+    Chainalysis does market an AI-agent story - it publishes an AI Agents page at
+    https://www.chainalysis.com/ai-agents/ (HTTP 200) and a large llms.txt at
+    https://www.chainalysis.com/llms.txt (HTTP 200, 675KB). Both are aimed at LLMs READING
+    Chainalysis content for citation, not at agents CALLING Chainalysis APIs. The gap
+    between the two is the notable finding: strong agent-facing content posture, zero
+    agent-facing API posture.

@@ -1,0 +1,112 @@
+generated: '2026-08-27'
+method: probed
+source: >-
+  https://status.chainalysis.com/api/v2/summary.json + live version-prefix probes of
+  api.chainalysis.com
+description: >-
+  Versioning, deprecation and operational-status posture for the Chainalysis API estate.
+  Chainalysis operates a real public Statuspage covering twelve components and has
+  executed a genuine, correctly-signalled API sunset - but it publishes no written
+  deprecation or versioning POLICY that is reachable without a customer login.
+status_page:
+  present: true
+  url: https://status.chainalysis.com/
+  http_status: 200
+  platform: Atlassian Statuspage
+  api: https://status.chainalysis.com/api/v2/summary.json
+  page_id: bkz9pvyggn1d
+  machine_readable: true
+  observed: '2026-08-27'
+  overall: All components operational; 0 open incidents, 0 scheduled maintenances.
+  component_groups:
+    - name: Crypto Compliance
+      components:
+        - KYT API
+        - Reactor
+        - Hexagate
+        - Stories
+        - KYT UI
+        - Entities
+    - name: Crypto Investigations
+      components:
+        - Investigations API
+        - Rapid Lookup
+        - Sentinel
+    - name: Crypto Security & Fraud
+      components: []
+  note: >-
+    The status page names two API components explicitly - "KYT API" and "Investigations
+    API" - which is independent confirmation of the shape of the estate. It exposes a
+    documented JSON API (/api/v2/summary.json), so an agent can read incident state
+    programmatically. It carries NO published SLA / uptime target.
+versioning:
+  scheme: path-segment
+  pattern: /api/{product}/v{n}/
+  observed_versions:
+    - path_prefix: /api/kyt/v1
+      status: live
+      http_status: 403
+      note: Prior major still routed and answering the application 403 envelope.
+    - path_prefix: /api/kyt/v2
+      status: current
+      http_status: 403
+    - path_prefix: /api/risk/v1
+      status: retired
+      http_status: 404
+      note: >-
+        Returns the bare nginx 404 page - retired WITHOUT a 410 or a migration pointer,
+        unlike the Entities sunset below. The estate is inconsistent about how it retires.
+    - path_prefix: /api/risk/v2
+      status: current
+      http_status: 403
+  note: >-
+    KYT keeps v1 routed alongside v2, which is good practice. Address Screening dropped
+    risk/v1 to a plain 404 with no signal at all.
+deprecations:
+  - surface: Entities API / Investigations API on api.chainalysis.com
+    state: sunset
+    http_status: 410
+    signal: HTTP 410 Gone with a plaintext migration pointer
+    body: Use reactor.chainalysis.com instead
+    replacement: https://reactor.chainalysis.com
+    observed: '2026-08-27'
+    evidence:
+      - url: https://api.chainalysis.com/api/entities/v1
+        status: 410
+      - url: https://api.chainalysis.com/api/investigations/v1
+        status: 410
+      - url: https://api.chainalysis.com/
+        status: 410
+    note: >-
+      This is the estate's strongest lifecycle signal and it is done well: the correct
+      status code for a permanent removal, plus a machine-readable pointer at the
+      replacement host, applied as the host's catch-all so ANY stale path is caught. It
+      also means the baseURL previously recorded in apis.yml for the Entities API pointed
+      at a host that answers 410 for that product - corrected in this pass.
+rfc8594:
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No Sunset or Deprecation response header was observed on any live or retired endpoint.
+    The 410 body carries the migration target instead of a Link rel="successor-version".
+deprecation_policy:
+  published: false
+  note: >-
+    No anonymously reachable deprecation, versioning or end-of-life policy document was
+    found. Any such policy lives behind the customer login at developers.chainalysis.com
+    (every path returns "User is not logged in"). NO `Deprecation` pointer is wired into
+    apis.yml, because the check asks whether the provider PUBLISHES a policy - and the
+    observed 410 is evidence of practice, not of a published policy.
+sla:
+  published: false
+  note: >-
+    No public SLA or uptime commitment. Terms are in the Master Subscription Agreement
+    (https://www.chainalysis.com/msa1023/), which states commercial terms rather than a
+    numeric availability target.
+changelog:
+  published: false
+  note: >-
+    No anonymously reachable dated API changelog or release-notes feed. Product release
+    notes are inside the gated developer portal / support centre. No ChangeLog pointer
+    is emitted. The company blog (https://www.chainalysis.com/blog/) is editorial
+    research, not an API changelog.

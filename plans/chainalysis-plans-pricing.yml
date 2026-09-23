@@ -3,51 +3,105 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Chainalysis
 providerId: chainalysis
+generated: '2026-08-27'
+method: searched
+source: >-
+  https://www.chainalysis.com/pricing/ (HTTP 404) + https://www.chainalysis.com/request-a-demo/
+  (HTTP 200) + https://www.chainalysis.com/product/address-screening/ (HTTP 200)
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-08-27'
 tags:
-- Compliance
-- AML
-- KYT
-- Sanctions
-- Investigations
-- Blockchain Analytics
-- Risk
-- Crypto
-description: Machine-readable plans scaffold for the Chainalysis API surface. Conforms to the API Commons Plans schema. Tier
-  limits and prices are scaffold defaults; replace with provider-published values.
+  - Compliance
+  - AML
+  - Sanctions
+  - Pricing
+description: >-
+  Commercial plan record for Chainalysis. This file REPLACES a scaffold that invented a
+  "Free" tier with a 1,000 requests/month quota and a 10 rpm rate limit - neither of which
+  Chainalysis has ever published. Chainalysis publishes NO pricing page and NO priced
+  tiers. Everything except the free sanctions screening tools is sold by enterprise
+  contract through a sales conversation.
+plan_count: 1
+pricing_page:
+  published: false
+  probed:
+    - url: https://www.chainalysis.com/pricing/
+      status: 404
+    - url: https://www.chainalysis.com/request-a-demo/
+      status: 200
+      note: >-
+        https://www.chainalysis.com/contact-us/ redirects here. This demo-request form is
+        the entry point for every commercial product; no self-serve signup or price exists.
+  note: >-
+    There is no /pricing/ page, no plan comparison table, and no published list price for
+    any Chainalysis product. This is a deliberate enterprise go-to-market, not an omission.
 plans:
-- id: chainalysis-free
-  name: Free
-  type: freemium
-  description: Free entry tier for the Chainalysis API surface. Intended for evaluation, prototyping, and low-volume integrations.
-    Real limits and pricing must be reconciled with the provider's published plan documentation.
-  entries:
-  - label: API Requests
-    description: Monthly API request quota across all included endpoints
-    name: api_requests
-    type: quota
-    metric: requests
-    limit: 1000
-    timeFrame: month
-    geo: global
-    domains:
-    - https://public.chainalysis.com/api/v1
-    unit: 1
+  - id: chainalysis-sanctions-screening-free
+    name: Free Sanctions Screening
+    type: free
     price: '0.00'
-    userMultiplied: false
-  - label: Rate Limit
-    description: Maximum requests per minute on the free tier
-    name: rate_limit
-    type: rate
-    metric: requests_per_minute
-    limit: 10
-    timeFrame: minute
-    geo: global
-    domains:
-    - https://public.chainalysis.com/api/v1
-    unit: 1
-    price: '0.00'
+    currency: USD
+    billing_period: none
+    contract_required: false
+    signup: self-serve API key request
+    url: https://www.chainalysis.com/product/address-screening/
+    description: >-
+      Chainalysis publishes its sanctions screening capability free of charge and without a
+      commercial relationship, in two forms: a REST API at public.chainalysis.com/api/v1
+      requiring a free X-API-Key, and a permissionless on-chain oracle smart contract that
+      requires no key at all. Sanctions data covers US (OFAC), EU and UN lists.
+    entries:
+      - label: Sanctions address lookup
+        name: sanctions_lookup
+        type: quota
+        metric: requests
+        limit: 5000
+        timeFrame: 5m
+        unit: 1
+        price: '0.00'
+        domains:
+          - https://public.chainalysis.com/api/v1
+        note: See rate-limits/chainalysis-rate-limits.yml. Exhaustion returns HTTP 403.
+      - label: On-chain sanctions oracle
+        name: sanctions_oracle
+        type: unmetered
+        price: '0.00'
+        note: >-
+          Smart-contract oracle (isSanctioned(address)) deployed on Ethereum, Polygon,
+          BNB Smart Chain, Avalanche, Optimism, Arbitrum, Fantom, Celo, Blast and Base.
+          Documented at https://go.chainalysis.com/chainalysis-oracle-docs.html. Requires
+          no API key and no customer relationship; the consumer pays only network gas.
+    disclaimer: >-
+      Chainalysis states it "cannot guarantee the accuracy, timeliness, suitability, or
+      validity of the data" provided by the free sanctions tools.
+enterprise:
+  contract_required: true
+  products:
+    - Chainalysis KYT
+    - Chainalysis Address Screening
+    - Chainalysis Reactor
+    - Chainalysis Entities
+    - Chainalysis Rapid
+    - Chainalysis Sentinel
+    - Chainalysis VASP Risking
+    - Chainalysis Wallet Scan
+    - Chainalysis Data Solutions
+    - Hexagate
+    - Alterya
+  route_to_purchase: https://www.chainalysis.com/request-a-demo/
+  terms:
+    master_subscription_agreement: https://www.chainalysis.com/msa1023/
+    acceptable_use_policy: https://www.chainalysis.com/acceptable-use-policy/
+    product_guide: https://www.chainalysis.com/productguide/
+  note: >-
+    No list price, no published quota, no published overage rate for any enterprise
+    product. Commercial terms are set in the MSA and the per-customer order form.
 references:
-- name: Chainalysis API Documentation
-  url: https://raw.githubusercontent.com/api-evangelist/chainalysis/refs/heads/main/apis.yml
+  - name: Chainalysis Legal Documents
+    url: https://www.chainalysis.com/legal/
+  - name: Chainalysis Sanctions Oracle documentation
+    url: https://go.chainalysis.com/chainalysis-oracle-docs.html
+notes:
+  - >-
+    Prior versions of this file contained a scaffolded "chainalysis-free" plan with a
+    1,000 requests/month quota that Chainalysis never published. It has been removed.

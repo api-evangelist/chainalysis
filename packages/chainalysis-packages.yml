@@ -1,0 +1,99 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  registry.npmjs.org search + pypi.org/pypi/chainalysis/json + api.github.com/orgs/chainalysis
+description: >-
+  First-party client libraries published by Chainalysis. Exactly ONE official package was
+  found across npm, PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist and
+  crates.io: the Data Solutions Python SDK on PyPI, whose maintainer addresses are
+  @chainalysis.com. No first-party JavaScript/TypeScript, Java, .NET, Go, Ruby, PHP or
+  Rust SDK exists. The GitHub organization github.com/chainalysis is real but publishes
+  ZERO public repositories, so no SDK source is available there.
+packages:
+  - name: chainalysis
+    registry: pypi
+    language: Python
+    official: true
+    url: https://pypi.org/project/chainalysis/
+    version: 1.1.0
+    published: '2026-01-13'
+    requires_python: '>=3.8'
+    description: >-
+      Chainalysis Data Solutions Python SDK - a wrapper for the Data Solutions API suite,
+      used to run analytical and transactional queries against Chainalysis blockchain
+      databases. API keys are issued from https://data.chainalysis.com/.
+    maintainers:
+      - musa.nishat@chainalysis.com
+      - kurt.bugbee@chainalysis.com
+    ownership_evidence: >-
+      Both PyPI maintainer addresses are @chainalysis.com and the package documents
+      registration at data.chainalysis.com, the Chainalysis Data Solutions console
+      (probed 200). This is a first-party package.
+    docs: https://docs.transpose.io/chainalysis-data-solutions-python-sdk/
+    source_code: https://github.com/TransposeData/chainalysis-data-solutions-python-sdk
+    source_code_status: 404
+    release_history:
+      - version: 0.6.0
+        published: '2024-09-10'
+      - version: 0.7.0
+        published: '2024-09-19'
+      - version: 0.8.0
+        published: '2024-10-21'
+      - version: 0.9.0
+        published: '2024-10-21'
+      - version: 1.0.0
+        published: '2024-10-22'
+      - version: 1.1.0
+        published: '2026-01-13'
+    note: >-
+      DECAY SIGNAL: the SDK's own declared Homepage,
+      github.com/TransposeData/chainalysis-data-solutions-python-sdk, returns HTTP 404 -
+      the source repository is deleted or private, so the only published first-party SDK
+      ships with a dead source link. Documentation still lives on docs.transpose.io
+      (HTTP 200), the domain of Transpose, acquired by Chainalysis in 2023. Five of the
+      six releases landed in a six-week window in late 2024; 1.1.0 (2026-01-13) is the
+      sole release since.
+third_party_packages:
+  note: >-
+    Recorded for completeness and explicitly NOT counted as Chainalysis SDKs. Every
+    npm result matching "chainalysis" is published by an unaffiliated account.
+  examples:
+    - name: chainalysis-api-rest
+      registry: npm
+      official: false
+      version: 0.1.1
+      published: '2022-05-16'
+      publisher: roger-edesigns
+    - name: '@velocity-bpa/n8n-nodes-chainalysis'
+      registry: npm
+      official: false
+      version: 1.0.0
+      published: '2026-04-25'
+      publisher: velobpa
+    - name: '@activepieces/piece-chainalysis-api'
+      registry: npm
+      official: false
+      version: 0.1.7
+      published: '2026-08-22'
+      publisher: abdul_activepiecer3
+registries_checked:
+  - registry: pypi
+    result: 1 official package (chainalysis)
+    absent: [chainalysis-sdk, chainalysis-api]
+  - registry: npm
+    result: 0 official packages; 25 third-party results reviewed
+  - registry: github
+    result: >-
+      org github.com/chainalysis exists (id 10007513) but returns 0 public repositories
+  - registry: maven-central
+    result: no first-party artifact found
+  - registry: nuget
+    result: no first-party artifact found
+  - registry: rubygems
+    result: no first-party artifact found
+  - registry: crates.io
+    result: no first-party artifact found
+  - registry: pkg.go.dev
+    result: no first-party module found
+  - registry: packagist
+    result: no first-party package found
