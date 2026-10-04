@@ -40,6 +40,15 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/chainalysi
 tags:
   - Compliance
   - AML
+  - Transaction Monitoring
+  - Sanctions
+  - Investigations
+  - Blockchain Analytics
+  - Risk Management
+  - Crypto
+tags_raw:
+  - Compliance
+  - AML
   - KYT
   - Sanctions
   - Investigations
@@ -93,6 +102,10 @@ apis:
     baseURL: https://api.chainalysis.com/api/kyt/v2
     tags:
       - REST
+      - Transaction Monitoring
+      - AML
+    tags_raw:
+      - REST
       - KYT
       - AML
       - Transaction Monitoring
@@ -109,6 +122,10 @@ apis:
     humanURL: https://www.chainalysis.com/product/address-screening/
     baseURL: https://api.chainalysis.com/api/risk/v2
     tags:
+      - REST
+      - Address Screening
+      - Risk Management
+    tags_raw:
       - REST
       - Address Screening
       - Risk
@@ -207,6 +224,10 @@ apis:
     baseURL: https://www.chainalysis.com/product/vasp-risking/
     tags:
       - VASP
+      - Risk Management
+      - Counterparty
+    tags_raw:
+      - VASP
       - Risk
       - Counterparty
     properties:
@@ -220,6 +241,9 @@ apis:
     humanURL: https://www.chainalysis.com/product/sentinel/
     baseURL: https://www.chainalysis.com/product/sentinel/
     tags:
+      - Stablecoins
+      - Risk Management
+    tags_raw:
       - Stablecoins
       - Risk
     properties:
