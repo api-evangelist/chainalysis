@@ -284,6 +284,8 @@ apis:
       - type: Website
         url: https://www.alterya.com/
 common:
+  - type: FinOps
+    url: finops/chainalysis-finops.yml
   - type: Website
     url: https://www.chainalysis.com/
   - type: DeveloperPortal
