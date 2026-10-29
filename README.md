@@ -1,4 +1,4 @@
-# chainalysis
+# Chainalysis
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Chainalysis — blockchain compliance + investigations + KYT
+Chainalysis is a blockchain analysis company providing data, software, and research to government agencies, exchanges, banks, and crypto businesses for compliance, investigation, and risk management. Core products include KYT (real-time transaction monitoring), Address Screening, the publicly hosted Sanctions API, Reactor (investigations and fund tracing), Crypto Investigations, Wallet Scan, Rapid (AI-assisted triage), VASP Risking, and Sentinel (stablecoin risk). Security-side products include Hexagate (web3 threat prevention) and Alterya (fraud prevention). Most APIs are REST-based and gated behind enterprise contracts, except the free public Sanctions Screening API.
+
+**Areas:** Compliance · AML · Transaction Monitoring · Sanctions · Investigations · Blockchain Analytics · Risk Management · Cryptocurrency
+
+## Chainalysis on APIs.io
+
+Everything profiled for Chainalysis is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/chainalysis/](https://apis.io/providers/chainalysis/)** — or go straight to one of the APIs or properties below.
+
+### APIs (12)
+
+- [Chainalysis Sanctions Screening API](https://apis.io/apis/chainalysis/sanctions-screening/) — Free public REST API that returns whether a given crypto address is identified as sanctioned by OFAC, EU, or UN sanctions authorities. No commercial licence…
+- [Chainalysis KYT API](https://apis.io/apis/chainalysis/kyt-api/) — Enterprise REST API for real-time anti-money-laundering monitoring of crypto transactions - register deposits, withdrawals, and transfers, and receive risk…
+- [Chainalysis Address Screening API](https://apis.io/apis/chainalysis/address-screening/) — Enterprise REST API for assessing a wallet's risk exposure - returns categorised exposure (e.g. darknet markets, sanctions, scams) and a risk score for a…
+- [Chainalysis Entities API](https://apis.io/apis/chainalysis/entities-api/) — Enterprise REST API exposing Chainalysis's labelled-entity dataset - look up the entity behind a given address (exchange, mixer, sanctioned actor, scam,…
+- [Chainalysis Reactor](https://apis.io/apis/chainalysis/reactor/) — Investigation product for tracing funds across blockchains - graph explorer, address clustering, and case management used by law enforcement, government,…
+- [Chainalysis Crypto Investigations](https://apis.io/apis/chainalysis/crypto-investigations/) — Managed investigation service where Chainalysis analysts conduct or assist with crypto-related investigations on behalf of customers, including expert…
+- [Chainalysis Rapid](https://apis.io/apis/chainalysis/rapid/) — AI-powered triage product for instant assessment of crypto addresses and transactions - surfaces key risk and entity context to speed up investigations and…
+- [Chainalysis Wallet Scan](https://apis.io/apis/chainalysis/wallet-scan/) — Tool for scanning recovered seed phrases against the blockchain to identify wallets holding seizable cryptocurrency, used in law-enforcement asset-seizure…
+- [Chainalysis VASP Risking](https://apis.io/apis/chainalysis/vasp-risking/) — Risk-profile product for Virtual Asset Service Providers - assesses exchanges and other VASPs against AML, sanctions, and counterparty risk criteria for use…
+- [Chainalysis Sentinel](https://apis.io/apis/chainalysis/sentinel/) — Stablecoin-focused risk product that evaluates the risk profile of individual stablecoins, their issuers, and circulation patterns.
+- [Hexagate (Chainalysis)](https://apis.io/apis/chainalysis/hexagate/) — Web3 security product (acquired by Chainalysis) that monitors smart contracts and on-chain activity in real time to detect and prevent exploits, governance…
+- [Alterya (Chainalysis)](https://apis.io/apis/chainalysis/alterya/) — AI-powered fraud prevention product (acquired by Chainalysis) that identifies scams and fraud-victim relationships to help exchanges and payment platforms…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Chainalysis Authentication](https://apis.io/security/chainalysis/chainalysis-authentication/)
+- [Chainalysis Domain Security](https://apis.io/security/chainalysis/chainalysis-domain-security/)
+- [Chainalysis Trust Center](https://apis.io/security/chainalysis/chainalysis-trust-center/)
+- [Chainalysis Vulnerability Disclosure](https://apis.io/security/chainalysis/chainalysis-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Chainalysis Plans Pricing](https://apis.io/plans/chainalysis/chainalysis-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Chainalysis Rate Limits](https://apis.io/rate-limits/chainalysis/chainalysis-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Chainalysis Finops](https://apis.io/finops/chainalysis/chainalysis-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.chainalysis.com/)
+- [Documentation](https://developers.chainalysis.com/)
+- [Sign up](https://www.chainalysis.com/request-a-demo/)
+- [Support](https://support.chainalysis.com/hc/en-us)
+- [Blog](https://www.chainalysis.com/blog/)
+- [Security](https://www.chainalysis.com/vulnerability-disclosure-policy/)
+- [Compliance](https://www.chainalysis.com/legal/)
+- [Trust centre](https://trust.chainalysis.com/)
+- [Terms of service](https://www.chainalysis.com/msa1023/)
+- [Privacy policy](https://www.chainalysis.com/privacy-policy/)
+- [GitHub](https://github.com/chainalysis)
+- [Status](https://status.chainalysis.com/)
+
+## API Evangelist rating
+
+**Kin Score 40.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 63.2 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/chainalysis/](https://apis.io/providers/chainalysis/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Chainalysis: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/chainalysis/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
